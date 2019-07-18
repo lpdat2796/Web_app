@@ -3,12 +3,14 @@ class SearchController < ApplicationController
 
     end
 
-    def create
+    def search
         @arr = Array.new
         text = params[:search_form][:search]
         # byebug
         link = "https://libgen.is/search.php?req=" << text << "&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def"
         agent = Mechanize.new
+        #Download to disk without loading to memory
+        agent.pluggable_parser.default = Mechanize::Download
         page = agent.get(link)
         data = page.search "table.c"
         data = data.search "tr"
@@ -25,11 +27,17 @@ class SearchController < ApplicationController
             book.language     = dt[6].text
             book.size         = dt[7].text
             book.extension    = dt[8].text
-            book.action_link  = dt[11].children.attribute("href").value 
+
+            #Get link download 93.174.95.29
+            # link2             = agent.get(dt[9].children.attribute("href").value )
+            # data2             = link2.search "td h2 a"
+            # link2             = "http://93.174.95.29" << data2.attribute("href").value
+            # agent.get(link2).save(File.join(Web_app.download,book.title))
+            # book.action_link  = link2
+            # byebug
             @arr << book
 
         end
-       
     end
     def show
         
