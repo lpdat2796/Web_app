@@ -1,0 +1,10 @@
+<%= form_with scope: :search_form, local: true do |f|%>
+<p>
+    <%= f.label :search %>
+    <%= f.text_field :search %>
+</p>
+<p>
+    <%= f.submit %>
+</p>
+
+<% end %>
