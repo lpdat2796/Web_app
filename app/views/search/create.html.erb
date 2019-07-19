@@ -9,7 +9,7 @@
         <th>Language</th>
         <th>Size</th>
         <th>Extension</th>
-        <th>Link</th>
+        <th>Download</th>
     </thead>
     <tbody>
         <% @arr.each do |a| %>
@@ -22,9 +22,8 @@
             <td><%= a.page %></td>
             <td><%= a.language %></td>
             <td><%= a.size %></td>
-            <td><%= a.extension %></td>
-            <td><a href="<%= a.action_link %>">Download</a></td>
-            
+            <td><%= a.extension %></td> 
+            <td><%= link_to :Download, get_path(:url=>a.action_link,:title=>"#{a.title}.#{a.extension}") %></td>
         </tr>
         <% end %>
     </tbody>

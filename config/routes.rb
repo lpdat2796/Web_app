@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   
   get 'search'      =>    'search#index'
   post 'search'     =>    'search#search'
+  get 'get'         =>    'search#get'
   
   # get "signin"      =>  "devise/sessions#new"
   # post "signin"     =>  "devise/sessions#create"
