@@ -1,14 +1,17 @@
 Rails.application.routes.draw do
-  devise_for :users, path_names: 
-                                { sign_in: 'login',
-                                  sign_out: 'logout',
-                                  password: 'secret',
-                                  confirmation: 'verification',
-                                  unlock: 'unblock',
-                                  registration: 'register',
-                                  sign_up: 'signup' 
-                                }
+  devise_for :users
+  as :user do
+    get "login"           =>  "devise/sessions#new"
+    post "login"          =>  "devise/sessions#create"
+    delete "logout"       =>  "devise/sessions#destroy"
+    get "register"        =>  "devise/registrations#new"
+    post "register"       =>  "devise/registrations#create"
+    get "user/edit"       =>  "devise/registrations#edit"
+    get "password/reset"  =>  "devise/passwords#new"
+    get "password/reset"  =>  "devise/passwords#create"
+  end
 
+  
   root "home#index"
 
   resources :search
