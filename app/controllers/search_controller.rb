@@ -19,6 +19,8 @@ class SearchController < ApplicationController
       book.book_id      = dt[0].text
       book.author       = dt[1].text
       book.title        = dt[2].text
+      # title             = dt[2].search ("a")
+      # book.title        = title.text
       book.publisher    = dt[3].text
       book.year         = dt[4].text
       book.page         = dt[5].text
@@ -29,10 +31,12 @@ class SearchController < ApplicationController
       # Get link download 93.174.95.29
       link2             = agent.get(dt[9].children.attribute("href").value )
       data2             = link2.search "td h2 a"
-      link3             = "http://93.174.95.29" << data2.attribute("href").value
-      # agent.get(link2).save(File.join(Web_app.download, book.title))
-      book.action_link  = link3
-      #  byebug
+      link2             = "http://93.174.95.29" << data2.attribute("href").value  
+      title_save        = book.title.parameterize.underscore
+      byebug
+      agent.get(link2).save(File.join(download, title_save))
+      book.action_link  = agent.get(link2).save(File.join(download, title_save))
+      # byebug
       @arr << book
     end
   end
