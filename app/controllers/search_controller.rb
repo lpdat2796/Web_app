@@ -1,7 +1,17 @@
 class SearchController < ApplicationController
-  def index;end
+  def index
+    if params[:search_form].present?
+      # code crawl
+      search
+      render :result
+    else
+      render :index
+    end
+  end
 
-  def create
+  private
+
+  def search
     @arr  = Array.new
     agent = Mechanize.new
     text  = params[:search_form][:search]
@@ -9,7 +19,7 @@ class SearchController < ApplicationController
     page  = agent.get(link)
     data  = page.search "table.c"
     data  = data.search "tr"
-    data.each do |dt|
+    data[0..1 ].each do |dt|
       dt   = dt.search "td"
       book = Book.new
       next if dt[0].text == 'ID'
@@ -30,6 +40,7 @@ class SearchController < ApplicationController
       data2             = link2.search "td h2 a"
       link2             = "http://93.174.95.29#{data2.attribute("href").value}"
       book.action_link  = link2
+      # binding.pry
       @arr << book
     end
   end
@@ -38,8 +49,9 @@ class SearchController < ApplicationController
     #Download to disk without loading to memory
     agent.pluggable_parser.default = Mechanize::Download
     title = params[:title].parameterize.underscore
-    binding.pry
-    agent.get(params[:url]).save("download",title) 
+    extension = params[:extension]
+
+    agent.get(params[:url]).save(Rails.root.join('public', 'download', "#{title}.#{extension}")) 
     redirect_to search_index_path	
   end 
 end

@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :search
-  
+  resources :search, only: [:index]
+
   get 'search'      =>    'search#index'
-  post 'search'     =>    'search#search'
   get 'get'         =>    'search#get'
   
   # get "signin"      =>  "devise/sessions#new"
