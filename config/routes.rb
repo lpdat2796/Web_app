@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :search, only: [:index]
 
   get 'search'      =>    'search#index'
-  get 'get'         =>    'search#get'
+  post 'get'        =>    'search#get'
   
   # get "signin"      =>  "devise/sessions#new"
   # post "signin"     =>  "devise/sessions#create"

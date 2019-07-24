@@ -13,19 +13,51 @@
         <th>Download</th>
     </thead>
     <tbody>
-        <% @arr.each do |a| %>
-        <tr>
-            <td><%= a.book_id %></td>
-            <td><%= a.author %></td>
-            <td><%= a.title %></td>
-            <td><%= a.publisher %></td>
-            <td><%= a.year %></td>
-            <td><%= a.page %></td>
-            <td><%= a.language %></td>
-            <td><%= a.size %></td>
-            <td><%= a.extension %></td> 
-            <td><%= link_to :Download, get_path(:url=>a.action_link,:title=>a.title, :extension=>a.extension) %></td>
-        </tr>
+        <% @arr.each do |book| %>
+          <%= form_for book, url: get_path  do |f| %> 
+            <tr>
+                <td>
+                  <%= f.hidden_field :book_id, :value => book.book_id %>
+                  <%= book.book_id %>
+                </td>
+                <td>
+                  <%= f.hidden_field :author, :value => book.author %>
+                  <%= book.author %>
+                </td>
+                <td>
+                  <%= f.hidden_field :title, :value => book.title %> 
+                  <%= book.title %>
+                </td>
+                <td>
+                  <%= f.hidden_field :publisher, :value => book.publisher %>
+                  <%= book.publisher %>
+                </td>
+                <td>
+                  <%= f.hidden_field :year, :value => book.year %>
+                  <%= book.year %>
+                </td>
+                <td>
+                  <%= f.hidden_field :page, :value => book.page %>
+                  <%= book.page %>
+                </td>
+                <td>
+                  <%= f.hidden_field :language, :value => book.language %>
+                  <%= book.language %>
+                </td>
+                <td>
+                  <%= f.hidden_field :size, :value => book.size %>
+                  <%= book.size %>
+                </td>
+                <td>
+                  <%= f.hidden_field :extension, :value => book.extension %>
+                  <%= book.extension %>
+                </td> 
+                <td>
+                  <%= f.hidden_field :action_link, :value => book.action_link %>
+                  <%= f.submit 'Download' %>
+                </td>
+            </tr>
+          <% end %>
         <% end %>
     </tbody>
 </table>

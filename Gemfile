@@ -37,6 +37,9 @@ gem 'bootstrap-sass', '~> 3.4.1'
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'jquery-rails'
 
+#Carrierware upload file
+gem 'carrierwave', '>= 2.0.0.rc', '< 3.0'
+
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

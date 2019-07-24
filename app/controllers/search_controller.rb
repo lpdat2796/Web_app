@@ -9,6 +9,17 @@ class SearchController < ApplicationController
     end
   end
 
+  def get 
+    find_book= Book.find_by_book_id(params[:book][:book_id])
+    if find_book.present?
+      redirect_to search_index_path
+    else
+      save
+      download
+      redirect_to search_index_path
+    end
+  end 
+
   private
 
   def search
@@ -19,7 +30,7 @@ class SearchController < ApplicationController
     page  = agent.get(link)
     data  = page.search "table.c"
     data  = data.search "tr"
-    data[0..1 ].each do |dt|
+    data[0..1].each do |dt|
       dt   = dt.search "td"
       book = Book.new
       next if dt[0].text == 'ID'
@@ -44,15 +55,35 @@ class SearchController < ApplicationController
       @arr << book
     end
   end
-  def get 
+  
+  def save
+    book = Book.new
+    book.book_id      = params[:book][:book_id]
+    book.author       = params[:book][:author]
+    book.title        = params[:book][:title]
+    book.publisher    = params[:book][:publisher]
+    book.year         = params[:book][:year]
+    book.page         = params[:book][:page]
+    book.language     = params[:book][:language]
+    book.size         = params[:book][:size]
+    book.extension    = params[:book][:extension]
+    book.action_link  = params[:book][:action_link]
+    book.save
+  end
+
+  def download
     agent = Mechanize.new    
     #Download to disk without loading to memory
     agent.pluggable_parser.default = Mechanize::Download
-    title = params[:title].parameterize.underscore
-    extension = params[:extension]
-
-    agent.get(params[:url]).save(Rails.root.join('public', 'download', "#{title}.#{extension}")) 
-    redirect_to search_index_path	
-  end 
+    title = params[:book][:title].parameterize.underscore
+    extension = params[:book][:extension]
+    agent.get(params[:book][:action_link]).save(Rails.root.join('public', 'download', "#{title}.#{extension}"))
+    #Upload file to server by using carrierwave
+    File.open('public/download') do |f|
+      book.url = f
+    end
+    book.save!
+  end
+  
 end
 
