@@ -1,0 +1,3 @@
+<% @book.each do |book| %>
+    <%= link_to "#{book.title}", book.file.url  %>
+<% end %>

@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20190724060918) do
     t.string "language"
     t.string "size"
     t.string "extension"
-    t.text "action_link"
+    t.text "link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "year"

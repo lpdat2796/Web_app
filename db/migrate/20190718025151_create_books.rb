@@ -10,7 +10,7 @@ class CreateBooks < ActiveRecord::Migration[5.1]
       t.string    :language
       t.string    :size
       t.string    :extension
-      t.string    :action_link
+      t.string    :link
       
 
       t.timestamps

@@ -1,3 +1,3 @@
 class Book < ApplicationRecord
-    mount_uploader :url, BookUploader
+    mount_uploader :file, BookUploader
 end

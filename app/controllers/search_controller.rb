@@ -15,11 +15,12 @@ class SearchController < ApplicationController
       redirect_to search_index_path
     else
       save
-      download
       redirect_to search_index_path
     end
   end 
-
+  def show
+    @book = Book.all
+  end
   private
 
   def search
@@ -30,7 +31,7 @@ class SearchController < ApplicationController
     page  = agent.get(link)
     data  = page.search "table.c"
     data  = data.search "tr"
-    data[0..1].each do |dt|
+    data[0..3].each do |dt|
       dt   = dt.search "td"
       book = Book.new
       next if dt[0].text == 'ID'
@@ -50,13 +51,19 @@ class SearchController < ApplicationController
       link2             = agent.get(dt[9].children.attribute("href").value )
       data2             = link2.search "td h2 a"
       link2             = "http://93.174.95.29#{data2.attribute("href").value}"
-      book.action_link  = link2
+      book.link  = link2
       # binding.pry
       @arr << book
     end
   end
   
   def save
+    agent = Mechanize.new    
+    #Download to disk without loading to memory
+    agent.pluggable_parser.default = Mechanize::Download
+    title = params[:book][:title].parameterize.underscore
+    extension = params[:book][:extension]
+    agent.get(params[:book][:link]).save(Rails.root.join('public', 'download', "#{title}.#{extension}"))
     book = Book.new
     book.book_id      = params[:book][:book_id]
     book.author       = params[:book][:author]
@@ -67,22 +74,13 @@ class SearchController < ApplicationController
     book.language     = params[:book][:language]
     book.size         = params[:book][:size]
     book.extension    = params[:book][:extension]
-    book.action_link  = params[:book][:action_link]
-    book.save
-  end
-
-  def download
-    agent = Mechanize.new    
-    #Download to disk without loading to memory
-    agent.pluggable_parser.default = Mechanize::Download
-    title = params[:book][:title].parameterize.underscore
-    extension = params[:book][:extension]
-    agent.get(params[:book][:action_link]).save(Rails.root.join('public', 'download', "#{title}.#{extension}"))
+    book.link  = params[:book][:link]
     #Upload file to server by using carrierwave
-    File.open('public/download') do |f|
-      book.url = f
+    File.open("public/download/#{title}.#{extension}") do |f|
+      book.file = f
     end
     book.save!
+    
   end
   
 end
