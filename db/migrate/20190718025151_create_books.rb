@@ -5,7 +5,7 @@ class CreateBooks < ActiveRecord::Migration[5.1]
       t.string    :author
       t.string    :title
       t.string    :publisher
-      t.date      :year
+      t.datetime  :year
       t.integer   :page             
       t.string    :language
       t.string    :size
