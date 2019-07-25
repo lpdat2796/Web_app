@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text center">
+      <h1 class="title">ADMIN INDEX</h1>
+  </div>
+  <div class="col-lg-12 form-group">
+    <label for="">Welcome</label>
+    <%= link_to current_user.username, admin_edit_path(current_user) %>
+  </div>
+  <div class="col-lg-12 form-group">
+      <label for="">List Users</label>
+      <table class="table">
+        <thead>
+          <th>Id</th>
+          <th>Email</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </thead>
+        <tbody>
+          <% @user.each do |user| %>
+          <tr>  
+            <td><%= user.id %></td>
+            <td><%= user.email %></td>
+            <td><%= user.username %></td>
+            <td>
+              <% if user.role == 0  %>
+                User
+              <% else %>
+                Admin
+              <% end %>
+            </td>
+            <td><%=link_to "Edit", admin_edit_path(user)  %></td>
+            <td><%=link_to "Destroy", "#"  %></td>
+          </tr>  
+          <% end %>  
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

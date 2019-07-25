@@ -12,17 +12,21 @@ Rails.application.routes.draw do
     get "password/update"   =>  "devise/passwords#edit"
     get "register/confirm"  =>  "devise/confirmations#show"
     post "register/confirm" =>  "devise/confirmations#create"
+    get "admin/login"       =>  "devise/sessions#new"
+    post "admin/login"      =>  "devise/sessions#create"
   end
-
   
   root "home#index"
 
-  resources :search
+  resources :search, only: [:index]
   
-  get 'search/index'      =>    'search#index'
+  get 'search/index'        =>  'search#index'
   
-  # get "signin"      =>  "devise/sessions#new"
-  # post "signin"     =>  "devise/sessions#create"
-  # delete "signout"  =>  "devise/sessions#destroy"
+  resources :admin, only: [:index, :edit, :new, :update]
+
+  get "admin/edit"          =>  "admin#edit"
+  get "admin/new"           =>  "admin#new"
+  
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
