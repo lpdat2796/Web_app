@@ -10,7 +10,7 @@
   <%= link_to "Forgot your password?", password_reset_url %><br />
 <% end %>
 
-<!-- <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
   <%= link_to "Didn't receive confirmation instructions?", new_user_confirmation_path(resource_name) %><br />
 <% end %>
 
@@ -22,4 +22,4 @@
   <%- resource_class.omniauth_providers.each do |provider| %>
     <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
   <% end %>
-<% end %> -->
+<% end %>

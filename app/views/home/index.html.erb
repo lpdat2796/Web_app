@@ -1,4 +1,7 @@
 <% if user_signed_in? %>
+  <label>Xin chào <%= current_user.username %></label>
+<% end %>
+<% if user_signed_in? %>
    <%= link_to('logout', logout_path, method: :delete) %>
 <% else %>
   <%= link_to('login', login_path) %>
