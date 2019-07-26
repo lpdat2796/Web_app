@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   
   namespace :admin do
     root :to => "users#index"
-    resources :users, only: [:index, :new, :edit, :update]
+    resources :users, only: [:index, :new, :edit, :update, :create]
   end
 
      #define route edit user trong cái scope :user nest trong namspace admin
