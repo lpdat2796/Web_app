@@ -30,6 +30,9 @@ gem 'byebug'
 
 gem "mechanize"
 
+# Cancan
+gem "cancancan", "~> 2.0"
+
 # Boostrap 
 gem "sprockets-rails", :require => "sprockets/railtie"
 gem 'bootstrap', '~> 4.3.1'

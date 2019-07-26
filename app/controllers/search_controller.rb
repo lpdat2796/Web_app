@@ -1,33 +1,17 @@
 class SearchController < ApplicationController
   def index
+    # Nếu trong form search_form hk có data sẽ trả về false
     if params[:search_form].present?
       # code crawl
-      search
+      crawl_data
       render :result
     else
       render :index
     end
   end
 
-  def get 
-    find_book= Book.find_by_book_id(params[:book][:book_id])
-    if find_book.present?
-      # us = User_Books.new
-      # us.book_id = find_book.id
-      # us.user_id = current_user.id
-      # us.save
-      redirect_to search_index_path
-    else
-      save
-      redirect_to search_index_path
-    end
-  end 
-  def show
-    @book = Book.all
-  end
-  private
-
-  def search
+  # Crawl dữ liệu về
+  def crawl_data
     @arr  = Array.new
     agent = Mechanize.new
     text  = params[:search_form][:search]
@@ -42,6 +26,7 @@ class SearchController < ApplicationController
       book.book_id      = dt[0].text
       book.author       = dt[1].text
       book.title        = dt[2].text
+      # Đang tìm cách làm gọn title lại
       # title             = dt[2].search ("a")
       # book.title        = title.text
       book.publisher    = dt[3].text
@@ -51,17 +36,60 @@ class SearchController < ApplicationController
       book.size         = dt[7].text
       book.extension    = dt[8].text
 
-      # Get link download 93.174.95.29
+      # Lấy link download từ trang 93.174.95.29
       link2             = agent.get(dt[9].children.attribute("href").value )
       data2             = link2.search "td h2 a"
       link2             = "http://93.174.95.29#{data2.attribute("href").value}"
       book.link  = link2
-      # binding.pry
       @arr << book
     end
   end
-  
-  def save
+  # Lưu sách lại
+  def get_book 
+    # Check book đã có trong DB chưa, nếu có thì không cần save lại nữa
+    find_book= Book.find_by_book_id(params[:book][:book_id])
+    if find_book.present?
+      # byebug
+      # Lưu id user và book vào bảng trung gian
+      book_user = BooksUser.new
+      book_user.book_id = find_book.id
+      book_user.user_id = current_user.id
+      book_user.save
+      redirect_to show_path
+    else
+      # Lưu id user và book vào bảng trung gian
+      # byebug
+      save_book
+      book_user = BooksUser.new
+      book_user.book_id = Book.find_by_book_id(params[:book][:book_id]).id
+      book_user.user_id = current_user.id
+      book_user.save
+      redirect_to show_path
+    end
+  end 
+
+  def show_book
+    if current_user.is_admin?
+      @book = Book.all
+    else
+        @book = Book.joins("INNER JOIN books_users ON books_users.book_id = books.id AND books_users.user_id = #{current_user.id}")
+    end
+  end
+
+  def delete_book
+    if current_user.is_admin?
+      flash[:warning] = "You are admin. You shouldn't delete book."
+      redirect_back fallback_location: show_url
+    else
+      BooksUser.find_by_book_id(params[:id]).destroy
+      flash[:success] = "Delete successfully."
+      redirect_back fallback_location: show_url
+    end
+  end
+
+  private
+  # Lưu sách lại và đưa lên server
+  def save_book
     agent = Mechanize.new    
     #Download to disk without loading to memory
     agent.pluggable_parser.default = Mechanize::Download
@@ -84,9 +112,6 @@ class SearchController < ApplicationController
       book.file = f
     end
     book.save!
-    # user = User.find_by(current_user.id)
-    
-    
   end
   
 end

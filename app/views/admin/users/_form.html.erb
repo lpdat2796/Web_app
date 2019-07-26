@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-lg-offset-3 col-lg-6">
+    <%= form_for [:admin, user] do |f| %>
+      <div class="form-group">
+        <%= f.label :email, "Email", class: "control-label" %> 
+        <%= f.text_field :email, class: "form-control", placeholder: "Enter user email" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :name, "Name", class: "control-label" %> 
+        <%= f.text_field :username, class: "form-control", placeholder: "Enter user name" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password, "Password", class: "control-label" %>
+        <%= f.password_field :password, class: "form-control", placeholder: "Enter password" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password_confirmation, "Password Confirmation", class: "control-label" %>
+        <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Enter password confirmation" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :role, "Role", class: "control-label" %>
+        <%= f.select(:role, options_for_select([['User', 0], ['Admin', 1]])) %>
+      </div>
+      <div class="text-center">
+        <%= f.submit "Submit", class: "btn btn-success col-lg-12" %>
+      </div>
+    <% end %>
+  </div>
+</div>

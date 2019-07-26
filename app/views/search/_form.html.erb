@@ -2,10 +2,10 @@
 <%= form_with url: search_path, scope: :search_form, local: true, method: :get do |f|%>
     <p>
         <%= f.label :search %>
-        <%= f.text_field :search %>
+        <%= f.text_field :search, size: "20" %>
     </p>
     <p>
-        <%= f.submit %>
+        <%= f.submit :Search %>
     </p>
     
     <% end %>

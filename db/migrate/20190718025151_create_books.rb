@@ -7,6 +7,7 @@ class CreateBooks < ActiveRecord::Migration[5.1]
       t.string    :publisher
       t.datetime  :year
       t.integer   :page             
+      t.date      :year
       t.string    :language
       t.string    :size
       t.string    :extension

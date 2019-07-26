@@ -5,4 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   
   has_many :books_users
+         
+  def is_admin?
+    self.role == 1
+  end
+
 end
