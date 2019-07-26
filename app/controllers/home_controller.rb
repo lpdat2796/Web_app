@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-    def index
-        # byebug
+    def index 
     end
 end
