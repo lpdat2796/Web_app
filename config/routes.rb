@@ -22,11 +22,11 @@ Rails.application.routes.draw do
   
   get 'search/index'        =>  'search#index'
   
-  resources :admin, only: [:index, :edit, :new, :update]
+  namespace :admin do
+    root :to => "users#index"
+    resources :users, only: [:index, :new, :edit, :update]
+  end
 
-  get "admin/edit"          =>  "admin#edit"
-  get "admin/new"           =>  "admin#new"
-  
-
+     #define route edit user trong cái scope :user nest trong namspace admin
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

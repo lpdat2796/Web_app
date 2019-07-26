@@ -1,14 +1,12 @@
-class AdminController < ApplicationController
+class Admin::UsersController < Admin::BaseController
   before_action :set_user, only: [:edit, :update]
-
-  # def login;end
 
   def index
     @user = User.all
   end
 
   def new
-    @usert = User.new
+    @user = User.new
   end
 
   def create
@@ -24,8 +22,6 @@ class AdminController < ApplicationController
   end
 
   def edit
-    @user = User.find_by(params[:id])
-    byebug
   end
 
   def update
@@ -38,11 +34,19 @@ class AdminController < ApplicationController
     end
   end
 
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to admin_root_url, notice: 'Confession was successfully destroyed.' }
+    end
+  end
   private
+
   def set_user
-    @user = User.find_by(params[:id])
+    @user = User.find(params[:id])
   end
   def user_params
     params.require(:user).permit(:name, :email)
   end
+
 end
