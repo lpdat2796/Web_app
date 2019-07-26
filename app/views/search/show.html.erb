@@ -1,3 +1,30 @@
-<% @book.each do |book| %>
-    <%= link_to "#{book.title}", book.file.url  %>
-<% end %>
+<table class = "table table-striped">
+    <thead>
+        <th>ID</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Publisher</th>
+        <th>Year</th>
+        <th>Pages</th>
+        <th>Language</th>
+        <th>Size</th>
+        <th>Extension</th>
+        <th>Link</th>
+    </thead>
+    <tbody>
+        <% @book.each do |book| %>
+          <tr>
+              <td><%= book.book_id %></td>
+              <td><%= book.author %></td>
+              <td><%= book.title %></td>
+              <td><%= book.publisher %></td>
+              <td><%= book.year %></td>
+              <td><%= book.page %></td>
+              <td><%= book.language %></td>
+              <td><%= book.size %></td>
+              <td><%= book.extension %></td> 
+              <td><%= link_to :Link, book.file.url %></td>
+          </tr>
+        <% end %>
+    </tbody>
+</table>

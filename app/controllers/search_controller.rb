@@ -12,6 +12,10 @@ class SearchController < ApplicationController
   def get 
     find_book= Book.find_by_book_id(params[:book][:book_id])
     if find_book.present?
+      # us = User_Books.new
+      # us.book_id = find_book.id
+      # us.user_id = current_user.id
+      # us.save
       redirect_to search_index_path
     else
       save
@@ -80,6 +84,8 @@ class SearchController < ApplicationController
       book.file = f
     end
     book.save!
+    # user = User.find_by(current_user.id)
+    
     
   end
   

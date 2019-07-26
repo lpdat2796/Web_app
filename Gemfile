@@ -32,9 +32,9 @@ gem "mechanize"
 
 # Boostrap 
 gem "sprockets-rails", :require => "sprockets/railtie"
-gem 'bootstrap-sass', '~> 3.4.1'
+gem 'bootstrap', '~> 4.3.1'
+
 #gem 'jquery-rails'
-gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'jquery-rails'
 
 #Carrierware upload file
