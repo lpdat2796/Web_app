@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
-
+  before_action :authenticate_user!, unless: :devise_controller?
   protected
 
   def configure_permitted_parameters
@@ -9,14 +9,19 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if current_user.role == 1
+    if request.referrer.include?('admin')
       admin_root_path
     else
       search_index_path
-    end 
+    end
   end
+
   def after_sign_out_path_for(resource)
-    login_path
+    if request.referrer.include?('admin')
+      admin_login_path
+    else
+      login_path
+    end
   end
 
   def authenticate_user!

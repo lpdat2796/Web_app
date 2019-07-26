@@ -4,7 +4,7 @@ class Admin::BaseController < ApplicationController
 
   private
   def ensure_user_accessible
-    return if current_user.is_admin? 
+    return if current_user && current_user.is_admin?
     redirect_to search_index_path 
   end
 end
