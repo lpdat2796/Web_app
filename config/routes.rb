@@ -22,8 +22,6 @@ Rails.application.routes.draw do
     get "password/update"   =>  "devise/passwords#edit"
     get "register/confirm"  =>  "devise/confirmations#show"
     post "register/confirm" =>  "devise/confirmations#create"
-    get "admin/login"       =>  "devise/sessions#new"
-    post "admin/login"      =>  "devise/sessions#create"
   end
   
   
