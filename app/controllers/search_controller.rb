@@ -47,7 +47,7 @@ class SearchController < ApplicationController
   # Lưu sách lại
   def get_book 
     # Check book đã có trong DB chưa, nếu có thì không cần save lại nữa
-    find_book= Book.find_by_book_id(params[:book][:book_id])
+    find_book= Book.find_by(book_id: params[:book][:book_id])
     if find_book.present?
       # byebug
       # Lưu id user và book vào bảng trung gian

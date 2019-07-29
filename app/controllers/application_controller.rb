@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if request.referrer.include?('admin')
+    if request.referrer.present? && request.referrer.include?('admin')
       admin_root_path
     else
       search_index_path
