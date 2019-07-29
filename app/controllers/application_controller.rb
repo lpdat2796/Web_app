@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user!, unless: :devise_controller?
 
+
   protected
 
   def configure_permitted_parameters
@@ -23,5 +24,16 @@ class ApplicationController < ActionController::Base
     else
       redirect_to login_path, :warning => 'You need to sign in or sign up before continuing.'
     end
+  end
+
+  # cancan gem
+  def current_ability
+    controller_name_segments = params[:controller].split('/')
+    controller_name_segments.pop
+    controller_namespace = controller_name_segments.join('/').camelize
+    @current_ability ||= Ability.new(current_user, controller_namespace)
+  end
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
   end
 end

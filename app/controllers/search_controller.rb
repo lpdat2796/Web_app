@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+
+
   def index
     # Nếu trong form search_form hk có data sẽ trả về false
     if params[:search_form].present?
@@ -70,21 +72,16 @@ class SearchController < ApplicationController
 
   def show_book
     if current_user.is_admin?
-      @book = Book.all
+      @book_user = BooksUser.all
     else
-        @book = Book.joins("INNER JOIN books_users ON books_users.book_id = books.id AND books_users.user_id = #{current_user.id}")
+      @books = Book.joins("INNER JOIN books_users ON books_users.book_id = books.id AND books_users.user_id = #{current_user.id}")
     end
   end
 
-  def delete_book
-    if current_user.is_admin?
-      flash[:warning] = "You are admin. You shouldn't delete book."
-      redirect_back fallback_location: show_url
-    else
-      BooksUser.find_by_book_id(params[:id]).destroy
-      flash[:success] = "Delete successfully."
-      redirect_back fallback_location: show_url
-    end
+def delete_book
+    BooksUser.find_by_book_id(params[:id]).destroy
+    flash[:success] = "Delete successfully."
+    redirect_back fallback_location: show_url
   end
 
   private

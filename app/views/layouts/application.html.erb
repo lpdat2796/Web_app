@@ -22,8 +22,11 @@
         <a href="<%= root_path %>" class="list-group-item list-group-item-action bg-light">Home</a>
         <a href="<%= search_path %>" class="list-group-item list-group-item-action bg-light">Search</a>
         <a href="<%= show_path %>" class="list-group-item list-group-item-action bg-light">My Book</a>
-        <a href="<%= admin_root_path %>" class="list-group-item list-group-item-action bg-light">Users Management</a>
-        <a href="<%= admin_new_path %>" class="list-group-item list-group-item-action bg-light">Create User</a>
+        <% if current_user.is_admin? %>
+          <a href="<%= admin_root_path %>" class="list-group-item list-group-item-action bg-light">Users Management</a>
+          <a href="<%= admin_new_path %>" class="list-group-item list-group-item-action bg-light">Create User</a>
+        <% end %>
+
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
