@@ -36,7 +36,7 @@ class Admin::UsersController < Admin::BaseController
 
   def delete
     byebug
-    # @user.destroy
+    @user = User.find_by(id: params[:id]).destroy
     respond_to do |format|
       format.html { redirect_to admin_root_url, success: 'User was successfully destroyed.' }
     end

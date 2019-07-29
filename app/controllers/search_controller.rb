@@ -28,9 +28,10 @@ class SearchController < ApplicationController
       book.book_id      = dt[0].text
       book.author       = dt[1].text
       book.title        = dt[2].text
-      # Đang tìm cách làm gọn title lại
-      # title             = dt[2].search ("a")
-      # book.title        = title.text
+      dt[2].search('font').each do |str|
+        book.title.gsub!(str.text, '')
+        # Nếu không có dấu ! thì phải gán book.title = vế phía trên
+      end
       book.publisher    = dt[3].text
       book.year         = dt[4].text
       book.page         = dt[5].text
