@@ -14,7 +14,7 @@ class Admin::UsersController < Admin::BaseController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to admin_root_url, notice: 'User was successfully created.' }
       else
         format.html { render :new }
       end
@@ -27,17 +27,18 @@ class Admin::UsersController < Admin::BaseController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to user_index_path, notice: 'User was successfully updated.' }
+        format.html { redirect_to admin_root_url, success: 'User was successfully updated.' }
       else
         format.html { render :edit }
       end
     end
   end
 
-  def destroy
-    @user.destroy
+  def delete
+    byebug
+    # @user.destroy
     respond_to do |format|
-      format.html { redirect_to admin_root_url, notice: 'Confession was successfully destroyed.' }
+      format.html { redirect_to admin_root_url, success: 'User was successfully destroyed.' }
     end
   end
   private
@@ -46,7 +47,6 @@ class Admin::UsersController < Admin::BaseController
     @user = User.find(params[:id])
   end
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :role)
   end
-
 end

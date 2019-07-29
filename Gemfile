@@ -30,11 +30,18 @@ gem 'byebug'
 
 gem "mechanize"
 
+# Cancan
+gem "cancancan", "~> 2.0"
+
 # Boostrap 
 gem "sprockets-rails", :require => "sprockets/railtie"
 gem 'bootstrap', '~> 4.3.1'
+
 #gem 'jquery-rails'
 gem 'jquery-rails'
+
+#Carrierware upload file
+gem 'carrierwave', '>= 2.0.0.rc', '< 3.0'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -51,6 +58,7 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'pry'
 end
 
 group :development do

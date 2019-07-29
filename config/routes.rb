@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+
+  root "home#index"
+  
+  resources :search, only: [:index]
+
+  get 'search'      =>    'search#index'
+  post 'get'        =>    'search#get_book'
+  get 'show'        =>    'search#show_book'
+  delete 'delete'   =>    'search#delete_book'
+
   devise_for :users
   as :user do
     get "login"             =>  "devise/sessions#new"
@@ -12,19 +22,15 @@ Rails.application.routes.draw do
     get "password/update"   =>  "devise/passwords#edit"
     get "register/confirm"  =>  "devise/confirmations#show"
     post "register/confirm" =>  "devise/confirmations#create"
-    get "admin/login"       =>  "devise/sessions#new"
-    post "admin/login"      =>  "devise/sessions#create"
   end
   
-  root "home#index"
-
-  resources :search, only: [:index]
-  
-  get 'search/index'        =>  'search#index'
   
   namespace :admin do
     root :to => "users#index"
-    resources :users, only: [:index, :new, :edit, :update, :create]
+    resources :users, only: [:index, :update, :create]
+    get 'new'               =>  "users#new"
+    get 'edit'              =>  "users#edit"
+    delete 'delete'         =>  "users#delete"
   end
 
      #define route edit user trong cái scope :user nest trong namspace admin
