@@ -14,7 +14,10 @@ class Admin::UsersController < Admin::BaseController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to admin_root_url, notice: 'User was successfully created.' }
+        format.html { 
+                      flash[:success] = 'User was successfully created.'
+                      redirect_to admin_root_url 
+                    }
       else
         format.html { render :new }
       end
@@ -27,7 +30,10 @@ class Admin::UsersController < Admin::BaseController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to admin_root_url, success: 'User was successfully updated.' }
+        format.html { 
+                      flash[:success] = 'User was successfully updated.'
+                      redirect_to admin_root_url 
+                    }
       else
         format.html { render :edit }
       end
@@ -35,16 +41,25 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def delete
-    byebug
-    # @user.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_root_url, success: 'User was successfully destroyed.' }
+    user = User.find_by(id: params[:id])
+    if can? :destroy, user
+      BooksUser.find_by(user_id: user.id).destroy if BooksUser.find_by(user_id: user.id).present?
+      user.destroy
+      respond_to do |format|
+        format.html { 
+                      flash[:success] = 'User was successfully destroyed.'
+                      redirect_to admin_root_url 
+                    }
+    end
+    else
+      flash[:warning] = "You can't delete your own account."
+      redirect_to admin_root_path
     end
   end
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
   end
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation, :role)

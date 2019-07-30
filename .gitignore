@@ -13,6 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 public/download
+public/upload
 
 # Ignore Byebug command history file.
 .byebug_history
