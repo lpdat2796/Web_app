@@ -35,11 +35,16 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def delete
-    byebug
-    if 
-    @user = User.find_by(id: params[:id]).destroy
-    respond_to do |format|
-      format.html { redirect_to admin_root_url, success: 'User was successfully destroyed.' }
+    user = User.find_by(id: params[:id])
+    if can? :destroy, user
+      BooksUser.find_by(user_id: user.id).destroy if BooksUser.find_by(user_id: user.id).present?
+      user.destroy
+      respond_to do |format|
+        format.html { redirect_to admin_root_url, success: 'User was successfully destroyed.' }
+      end
+    else
+      flash[:warning] = "You can't delete your own account."
+      redirect_to admin_root_path
     end
   end
   private
