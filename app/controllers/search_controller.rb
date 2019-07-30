@@ -55,26 +55,30 @@ class SearchController < ApplicationController
   end
   # Save book
   def get_book 
-    byebug
-    redirect_to search_index_path
-    # # Check if there has book in DB, not save if there has
-    # find_book= Book.find_by_book_id(params[:book][:book_id])
-    # book_user = BooksUser.new
-    # if find_book.present?
-    #   # Check if user has downloaded this book before
-    #   redirect_to show_path if BooksUser.find_by(book_id: find_book.id)
-    #   # Save id of user and book in mediate table
-    #   book_user.book_id = find_book.id
-    #   book_user.user_id = current_user.id
-    #   book_user.save
-    #   redirect_to show_path
-    # else
-    #   create
-    #   book_user.book_id = Book.find_by_book_id(params[:book][:book_id]).id
-    #   book_user.user_id = current_user.id
-    #   book_user.save
-    #   redirect_to show_path
-    # end
+    # byebug
+    # redirect_to search_index_path
+    # Check if there has book in DB, not save if there has
+    find_book= Book.find_by_book_id(params[:book][:book_id])
+    book_user = BooksUser.new
+    if find_book.present?
+      # Check if user has downloaded this book before
+      redirect_to show_path if BooksUser.find_by(book_id: find_book.id)
+      # Save id of user and book in mediate table
+      book_user.book_id = find_book.id
+      book_user.user_id = current_user.id
+      book_user.save
+      flash[:success] = "Downloaded"
+      # redirect_to :show_book
+      redirect_to show_path
+    else
+      create
+      book_user.book_id = Book.find_by_book_id(params[:book][:book_id]).id
+      book_user.user_id = current_user.id
+      book_user.save
+      flash.now[:success] = "Downloaded"
+      render :result
+      # redirect_to show_path
+    end
   end 
 
   def show_book

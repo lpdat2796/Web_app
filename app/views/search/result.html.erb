@@ -1,5 +1,5 @@
 <%= render 'form' %>
-<%= form_for @arr, url: get_path  do |f| %> 
+
   <table class="table table-bordered">
     <thead>
         <th>ID</th>
@@ -15,6 +15,7 @@
     </thead>
     <tbody>
         <% @arr.each do |book| %>
+          <%= form_for book, url: get_path  do |f| %> 
           <tr>
               <td>
                 <%= f.hidden_field :book_id, :value => book.book_id %>
@@ -53,11 +54,12 @@
                 <%= book.extension %>
               </td> 
               <td>
-                <%= f.check_box :link, {multiple: true}, book.link, false %>
+                <%= f.hidden_field :link, :value => book.link %>
+                <%= f.submit :Download, {  class: "float-right btn btn-primary" } %>
               </td>
           </tr>
+          <%end%>
         <% end %>
     </tbody>
   </table>
-  <%= f.submit :Download, class: "float-right btn btn-primary" %>
-<% end %>
+  
