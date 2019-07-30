@@ -27,7 +27,7 @@
                 Admin
               <% end %>
             </td>
-            <td><%=link_to "Edit", admin_edit_path(user)  %></td>
+            <td><%=link_to "Edit", admin_edit_path(id: user.id)  %></td>
             <td><%=link_to "Delete", admin_path(user), method: :DELETE, data: {confirm: 'Are you sure?'}  %></td>
           </tr>  
           <% end %>  

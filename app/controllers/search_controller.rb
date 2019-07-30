@@ -57,17 +57,16 @@ class SearchController < ApplicationController
   def get_book 
     # Check book if there has in DB, not save if there has
     find_book= Book.find_by_book_id(params[:book][:book_id])
+    book_user = BooksUser.new
     if find_book.present?
-      # byebug
+      
       # Save id of user and book in mediate table
-      book_user = BooksUser.new
       book_user.book_id = find_book.id
       book_user.user_id = current_user.id
       book_user.save
       redirect_to show_path
     else
       create
-      book_user = BooksUser.new
       book_user.book_id = Book.find_by_book_id(params[:book][:book_id]).id
       book_user.user_id = current_user.id
       book_user.save
@@ -79,7 +78,7 @@ class SearchController < ApplicationController
     if current_user.is_admin?
       @book_user = BooksUser.all
     else
-      @books = Book.joins("INNER JOIN books_users ON books_users.book_id = books.id AND books_users.user_id = #{current_user.id}")
+      @book_user = BooksUser.where(user_id: current_user.id)
     end
   end
 
