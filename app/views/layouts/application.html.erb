@@ -9,10 +9,7 @@
   </head>
 
   <body>
-    <% if request.path == login_path || request.path == register_path || request.path == password_reset_path %>
-    <%= render 'devise/shared/messages' %>
-    <%=  yield %>
-    <% else %>
+    <% if show_left_menu? %>
     <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
@@ -74,6 +71,9 @@
       $("#wrapper").toggleClass("toggled");
     });
     </script>
+    <% else %>
+    <%= render 'devise/shared/messages' %>
+    <%=  yield %>
     <% end %>
   </body>
 </html>
