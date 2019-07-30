@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   
   resources :search, only: [:index]
 
-  get 'search'      =>    'search#index'
   post 'get'        =>    'search#get_book'
   get 'show'        =>    'search#show_book'
   delete 'delete'   =>    'search#delete_book'
@@ -30,7 +29,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :update, :create]
     get 'new'               =>  "users#new"
     get 'edit'              =>  "users#edit"
-    delete 'delete'         =>  "users#delete"
+    delete 'delete/:id'     =>  "users#delete"
   end
 
      #define route edit user trong cái scope :user nest trong namspace admin

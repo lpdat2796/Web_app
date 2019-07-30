@@ -3,16 +3,22 @@ class SearchController < ApplicationController
 
   def index
     # Nếu trong form search_form hk có data sẽ trả về false
-    if params[:search_form].present?
-      # code crawl
-      crawl_data
-      render :result
+    if params[:search_form].present? 
+      if params[:search_form][:search].length > 1
+        # code crawl
+        crawl_data
+        render :result
+        else
+          flash[:warning] = "The search query length should be not less than 2 characters"
+          render :index
+        end
     else
       render :index
     end
+
   end
 
-  # Crawl dữ liệu về
+  # Crawl data
   def crawl_data
     @arr  = Array.new
     agent = Mechanize.new
@@ -79,9 +85,14 @@ class SearchController < ApplicationController
     end
   end
 
-def delete_book
-    BooksUser.find_by_book_id(params[:id]).destroy
+  def delete_book
+    book = BooksUser.find_by(id: params[:id])
+    # if BooksUser.count(:condition => "#{book.book_id} < 2")
+    # end
+    byebug
+    book.destroy
     flash[:success] = "Delete successfully."
+    byebug
     redirect_back fallback_location: show_url
   end
 
