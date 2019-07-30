@@ -6,7 +6,7 @@ class Ability
       when 'Admin'
         if current_user.is_admin?
           can :manage, :all
-          cannot :destroy, User, :id => current_user.id
+          cannot :destroy, current_user
         else
           cannot :read, :all
         end
@@ -16,7 +16,7 @@ class Ability
         else
           can :manage, :all
         end
-    end
+      end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

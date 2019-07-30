@@ -1,12 +1,12 @@
 <table width="100" border="0">
-<%= form_with url: search_path, scope: :search_form, local: true, method: :get do |f|%>
-    <p>
-        <%= f.label :search %>
-        <%= f.text_field :search, size: "20" %>
-    </p>
-    <p>
-        <%= f.submit :Search %>
-    </p>
+    <%= form_with url: search_index_path, scope: :search_form, local: true, method: :get do |f|%>
+        <p>
+            <%= f.label :search %>
+            <%= f.text_field :search, size: "20" %>
+        </p>
+        <p>
+            <%= f.submit :Search %>
+        </p>
     
     <% end %>
 </table>

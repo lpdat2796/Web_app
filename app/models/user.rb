@@ -4,8 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
+  validates :username, length: { minimum: 3 }, presence: true
+  validates :email, presence: true
+  validates :password, length: { minimum: 6 }, presence: true
+
+
   has_many :books_users
-  scope :unowned, -> { left_joins(:books_users).where(books_users: { book_id: nil }) }
 
   def is_admin?
     self.role == 1
