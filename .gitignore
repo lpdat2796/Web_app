@@ -14,6 +14,8 @@
 !/tmp/.keep
 public/download
 public/upload
+config/database.yml 
+config/secrets.yml
 
 # Ignore Byebug command history file.
 .byebug_history
