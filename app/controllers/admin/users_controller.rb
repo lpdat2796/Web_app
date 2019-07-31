@@ -62,6 +62,6 @@ class Admin::UsersController < Admin::BaseController
     @user = User.find_by(id: params[:id])
   end
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :role)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
   end
 end

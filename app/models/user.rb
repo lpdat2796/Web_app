@@ -4,12 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
-  validates :username, presence: true,
+  validates :name, presence: true,
   length: { 
-    minimum: 5,
+    minimum: 3,
     maximum: 30,
-    too_short: "The user name must have at least %{count} characters.",
-    too_long: "The user name must have no more than %{count} characters."
+    too_short: " must have at least %{count} characters.",
+    too_long: "must have no more than %{count} characters."
   }
   validates :email, presence: true
   validates :password, length: { minimum: 6 }, presence: true

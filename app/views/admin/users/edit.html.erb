@@ -1,4 +1,5 @@
 <div class="container">
   <h1>EDIT USER</h1>
+  <%= render "admin/users/error_messages", user: @user %>
   <%= render 'form', user: @user %>
 </div>
