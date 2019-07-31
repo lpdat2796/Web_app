@@ -54,7 +54,7 @@ class SearchController < ApplicationController
     end
   end
   # Save book
-  def get_book 
+  def get 
     # Select books that checked
     books = params['books'].select { |p| p['choose'] == '1'}
     books.each do |book|
@@ -76,11 +76,11 @@ class SearchController < ApplicationController
         book_user.save
       end
     end
-    flash[:success] = "You downloaded successfully."
+    flash[:success] = "Book was successfully downloaded."
     redirect_to show_path
   end 
 
-  def show_book
+  def show
     if current_user.is_admin?
       @book_user = BooksUser.all
     else
@@ -88,12 +88,10 @@ class SearchController < ApplicationController
     end
   end
 
-  def delete_book
-    book = BooksUser.find_by(id: params[:id])
-    book.destroy
-    flash[:success] = "Delete successfully."
-    byebug
-    redirect_back fallback_location: show_url
+  def destroy
+    BooksUser.find_by(id: params[:id]).destroy
+    flash[:success] = "Book was successfully deleted."
+    redirect_to show_path
   end
 
   private

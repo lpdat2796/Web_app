@@ -12,7 +12,7 @@
         <th>Extension</th>
         <th>Download</th>  
     </thead>
-    <tbody><!-- |f| chỉ dùng khi có model form_tag ko co url: -->
+    <tbody>
         <%= form_tag get_path do  %> 
           <% @arr.each do |book| %>
             <%= fields_for 'books[]', book do |b| %>
@@ -56,7 +56,6 @@
                 <td>
                   <%= b.hidden_field :link, :value => book.link %>
                   <%= check_box_tag 'books[][choose]' %>
-
                 </td>
               </tr>
             <% end %>

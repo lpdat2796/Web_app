@@ -2,11 +2,10 @@ Rails.application.routes.draw do
 
   root "home#index"
   
-  resources :search, only: [:index]
+  resources :search, only: [:index, :destroy]
 
-  post 'get'        =>    'search#get_book'
-  get 'show'        =>    'search#show_book'
-  delete 'delete'   =>    'search#delete_book'
+  post 'get'            =>    'search#get'
+  get 'show'            =>    'search#show'
 
   devise_for :users
   as :user do
@@ -26,10 +25,9 @@ Rails.application.routes.draw do
   
   namespace :admin do
     root :to => "users#index"
-    resources :users, only: [:index, :update, :create]
+    resources :users, only: [:index, :update, :create, :destroy]
     get 'new'               =>  "users#new"
     get 'edit'              =>  "users#edit"
-    delete 'delete/:id'     =>  "users#delete"
   end
 
      #define route edit user trong cái scope :user nest trong namspace admin
