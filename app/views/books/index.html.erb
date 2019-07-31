@@ -31,7 +31,7 @@
         <td><%= book_user.book.size %></td>
         <td><%= book_user.book.extension %></td> 
         <td><%= link_to "Link", book_user.book.file.url %></td>
-        <td><%= link_to "Delete", search_path(book_user), method: :DELETE, data: {confirm: 'Are you sure?'} %></td>
+        <td><%= link_to "Delete", book_path(book_user), method: :DELETE, data: {confirm: 'Are you sure?'} %></td>
       </tr>
     <% end %>
   </tbody>

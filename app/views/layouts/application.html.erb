@@ -18,7 +18,7 @@
       <div class="list-group list-group-flush">
         <a href="<%= root_path %>" class="list-group-item list-group-item-action bg-light">Home</a>
         <a href="<%= search_index_path %>" class="list-group-item list-group-item-action bg-light">Search</a>
-        <a href="<%= show_path %>" class="list-group-item list-group-item-action bg-light">My Book</a>
+        <a href="<%= books_path %>" class="list-group-item list-group-item-action bg-light">My Book</a>
         <% if current_user.is_admin? %>
           <a href="<%= admin_root_path %>" class="list-group-item list-group-item-action bg-light">Users Management</a>
           <a href="<%= admin_new_path %>" class="list-group-item list-group-item-action bg-light">Create User</a>
@@ -59,10 +59,6 @@
 
     </div>
     <!-- /#wrapper -->
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>

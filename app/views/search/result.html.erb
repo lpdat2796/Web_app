@@ -13,7 +13,7 @@
         <th>Download</th>  
     </thead>
     <tbody>
-        <%= form_tag get_path do  %> 
+        <%= form_tag books_path do  %> 
           <% @arr.each do |book| %>
             <%= fields_for 'books[]', book do |b| %>
               <tr>
