@@ -20,7 +20,7 @@ class BooksController < ApplicationController
       book_user = BooksUser.new
       if find_book.present?
         # Check if user has downloaded this book before
-        unless BooksUser.find_by(book_id: find_book.id)
+        unless BooksUser.find_by(book_id: find_book.id, user_id: current_user.id).present?
           # Save id of user and book in mediate table
           book_user.book_id = find_book.id
           book_user.user_id = current_user.id
