@@ -1,5 +1,5 @@
 <%= render 'form' %>
-<table class="table table-bordered">
+  <table class="table table-bordered">
     <thead>
         <th>ID</th>
         <th>Author</th>
@@ -10,54 +10,57 @@
         <th>Language</th>
         <th>Size</th>
         <th>Extension</th>
-        <th>Download</th>
+        <th>Download</th>  
     </thead>
     <tbody>
-        <% @arr.each do |book| %>
-          <%= form_for book, url: get_path  do |f| %> 
-            <tr>
+        <%= form_tag books_path do  %> 
+          <% @arr.each do |book| %>
+            <%= fields_for 'books[]', book do |b| %>
+              <tr>
                 <td>
-                  <%= f.hidden_field :book_id, :value => book.book_id %>
+                  <%= b.hidden_field :book_id, :value => book.book_id %>
                   <%= book.book_id %>
                 </td>
                 <td>
-                  <%= f.hidden_field :author, :value => book.author %>
+                  <%= b.hidden_field :author, :value => book.author %>
                   <%= book.author %>
                 </td>
                 <td>
-                  <%= f.hidden_field :title, :value => book.title %> 
+                  <%= b.hidden_field :title, :value => book.title %> 
                   <%= book.title %>
                 </td>
                 <td>
-                  <%= f.hidden_field :publisher, :value => book.publisher %>
+                  <%= b.hidden_field :publisher, :value => book.publisher %>
                   <%= book.publisher %>
                 </td>
                 <td>
-                  <%= f.hidden_field :year, :value => book.year %>
+                  <%= b.hidden_field :year, :value => book.year %>
                   <%= book.year %>
                 </td>
                 <td>
-                  <%= f.hidden_field :page, :value => book.page %>
+                  <%= b.hidden_field :page, :value => book.page %>
                   <%= book.page %>
                 </td>
                 <td>
-                  <%= f.hidden_field :language, :value => book.language %>
+                  <%= b.hidden_field :language, :value => book.language %>
                   <%= book.language %>
                 </td>
                 <td>
-                  <%= f.hidden_field :size, :value => book.size %>
+                  <%= b.hidden_field :size, :value => book.size %>
                   <%= book.size %>
                 </td>
                 <td>
-                  <%= f.hidden_field :extension, :value => book.extension %>
+                  <%= b.hidden_field :extension, :value => book.extension %>
                   <%= book.extension %>
                 </td> 
                 <td>
-                  <%= f.hidden_field :link, :value => book.link %>
-                  <%= f.submit 'Download' %>
+                  <%= b.hidden_field :link, :value => book.link %>
+                  <%= check_box_tag 'books[][choose]' %>
                 </td>
-            </tr>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
     </tbody>
-</table>
+  </table>
+  <%= submit_tag :Download, {  class: "float-right btn btn-primary" } %>
+  <% end %>

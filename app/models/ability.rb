@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
   def initialize(current_user, controller_namespace)
     case controller_namespace
-      when 'Admin'
-        if current_user.is_admin?
-          can :manage, :all
-          cannot :destroy, current_user
-        else
-          cannot :read, :all
-        end
+    when 'Admin'
+      if current_user.is_admin?
+        can :manage, :all
+        cannot :destroy, current_user
       else
-        if current_user.is_admin?
-          can :manage, :all
-        else
-          can :manage, :all
-        end
+        cannot :read, :all
+      end
+    else
+      if current_user.is_admin?
+        can :manage, :all
+      else
+        can :manage, :all
+      end
       end
     # Define abilities for the passed in user here. For example:
     #

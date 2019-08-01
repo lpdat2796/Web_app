@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 # Load the Rails application.
 require_relative 'application'
 
-#Carrierwave
+# Carrierwave
 require 'carrierwave/orm/activerecord'
 
 # Initialize the Rails application.
 Rails.application.initialize!
-
-
