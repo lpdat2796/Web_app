@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :password, length: { minimum: 6 }, presence: true
 
-  has_many :books_users
+  has_many :books, through: :books_users
 
   def is_admin?
     role == 1

@@ -4,33 +4,29 @@ class BooksController < ApplicationController
   # Show book
   def index
     if current_user.is_admin?
-      @book_user = BooksUser.all
+      @book = Book.all
     else
-      @book_user = BooksUser.where(user_id: current_user.id)
+      @book = Book.where(user_id: current_user.id)
     end
   end
 
   # Save book
   def create
     # Select books that checked
-    books = params['books'].select { |p| p['choose'] == '1' }
-    books.each do |book|
+    book_params = params['books'].select { |p| p['choose'] == '1' }
+    book_params.each do |book|
       # Check if there has book in DB, not save if there has
-      find_book = Book.find_by_book_id(book[:book_id])
-      book_user = BooksUser.new
-      if find_book.present?
+      downloaded_book = Book.find_by(book_id: book[:book_id])
+      if downloaded_book.present?
         # Check if user has downloaded this book before
-        unless BooksUser.find_by(book_id: find_book.id)
+        current_user.books.exists?(book_id: downloaded_book.book_id)
           # Save id of user and book in mediate table
-          book_user.book_id = find_book.id
-          book_user.user_id = current_user.id
-          book_user.save
+          downloaded_book.users << current_user
         end
       else
-        download(book)
-        book_user.book_id = Book.find_by(book_id: book[:book_id]).id
-        book_user.user_id = current_user.id
-        book_user.save
+        # download(book) has id, book_id, title,... in book_new in method download
+        downloaded_book   = download(book)
+        downloaded_book.users << current_user
       end
     end
     flash[:success] = 'Book was successfully downloaded.'
@@ -38,7 +34,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    BooksUser.find_by(id: params[:id]).destroy
+    Book.find_by(id: params[:id]).destroy
     flash[:success] = 'Book was successfully deleted.'
     redirect_to books_path
   end
@@ -46,28 +42,19 @@ class BooksController < ApplicationController
   private
 
   # Download book and push it to server
-  def download(book)
-    agent = Mechanize.new
+  def download(book_params)
+    agent     = Mechanize.new
     # Download to disk without loading to memory
     agent.pluggable_parser.default = Mechanize::Download
-    title = book[:title].parameterize.underscore
-    extension = book[:extension]
-    agent.get(book[:link]).save(Rails.root.join('public', 'download', "#{title}.#{extension}"))
-    book_new = Book.new
-    book_new.book_id      = book[:book_id]
-    book_new.author       = book[:author]
-    book_new.title        = book[:title]
-    book_new.publisher    = book[:publisher]
-    book_new.year         = book[:year]
-    book_new.page         = book[:page]
-    book_new.language     = book[:language]
-    book_new.size         = book[:size]
-    book_new.extension    = book[:extension]
-    book_new.link         = book[:link]
+    title     = book_params[:title].parameterize.underscore
+    extension = book_params[:extension]
+    agent.get(book_params[:link]).save(Rails.root.join('public', 'download', "#{title}.#{extension}"))
+    book      = Book.new(book_params)
     # Upload file to server by using carrierwave
     File.open("public/download/#{title}.#{extension}") do |f|
-      book_new.file = f
+      book.file = f
     end
-    book_new.save
+    book.save
+    return book
   end
 end
