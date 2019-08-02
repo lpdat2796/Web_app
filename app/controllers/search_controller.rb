@@ -21,7 +21,7 @@ class SearchController < ApplicationController
     @arr  = []
     agent = Mechanize.new
     text  = params[:search_form][:search]
-    link  = 'https://libgen.is/search.php?req=' << text << '&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def'
+    link  = "https://libgen.is/search.php?req=#{text}&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def"
     page  = agent.get(link)
     data  = page.search 'table.c'
     data  = data.search 'tr'
