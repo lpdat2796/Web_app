@@ -17,11 +17,11 @@
   </thead>
   <tbody>
     <% @books.each do |book| %>
-      <% book.users.map(&:id).each do |user| %>
+      <% book.users.map(&:id).each do |user_id| %>
       <tr>
         <td><%= book.book_id %></td>
         <% if current_user.is_admin? %>
-          <td><%= user %></td>
+          <td><%= user_id %></td>
         <% end %>
         <td><%= book.author %></td>
         <td><%= book.title %></td>
