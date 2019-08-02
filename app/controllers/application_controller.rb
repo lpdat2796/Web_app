@@ -7,8 +7,9 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  #allow user login to sign in using their email address
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[email name password password_confirmation])
+    devise_parameter_sanitizer.permit(:register, keys: %i[email name password password_confirmation])
   end
 
   def after_sign_in_path_for(_resource)
@@ -27,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # cancan gem
+  # Authorization with cancan gem
   def current_ability
     controller_name_segments = params[:controller].split('/')
     controller_name_segments.pop
@@ -35,6 +36,6 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_user, controller_namespace)
   end
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
+    redirect_to root_url, :alert => exception.message
   end
 end

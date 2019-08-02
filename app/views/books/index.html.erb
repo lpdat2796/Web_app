@@ -1,8 +1,8 @@
 <table class = "table table-striped">
   <thead>
-    <th>Id</th>
+    <th>ID</th>
     <% if current_user.is_admin? %>
-      <th>User Id</th>
+      <th>UID</th>
     <% end %>
     <th>Author</th>
     <th>Title</th>
@@ -16,23 +16,25 @@
     <th>Delete</th>
   </thead>
   <tbody>
-    <% @book_user.each do |book_user| %>
+    <% @books.each do |book| %>
+      <% book.users.map(&:id).each do |user_id| %>
       <tr>
-        <td><%= book_user.book.book_id %></td>
+        <td><%= book.book_id %></td>
         <% if current_user.is_admin? %>
-          <td><%= book_user.user_id %></td>
+          <td><%= user_id %></td>
         <% end %>
-        <td><%= book_user.book.author %></td>
-        <td><%= book_user.book.title %></td>
-        <td><%= book_user.book.publisher %></td>
-        <td><%= book_user.book.year %></td>
-        <td><%= book_user.book.page %></td>
-        <td><%= book_user.book.language %></td>
-        <td><%= book_user.book.size %></td>
-        <td><%= book_user.book.extension %></td> 
-        <td><%= link_to "Link", book_user.book.file.url %></td>
-        <td><%= link_to "Delete", book_path(book_user), method: :DELETE, data: {confirm: 'Are you sure?'} %></td>
+        <td><%= book.author %></td>
+        <td><%= book.title %></td>
+        <td><%= book.publisher %></td>
+        <td><%= book.year %></td>
+        <td><%= book.page %></td>
+        <td><%= book.language %></td>
+        <td><%= book.size %></td>
+        <td><%= book.extension %></td> 
+        <td><%= link_to "Link", book.file.url %></td>
+        <td><%= link_to "Delete", book_path(book), method: :DELETE, data: {confirm: 'Are you sure?'} %></td>
       </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
