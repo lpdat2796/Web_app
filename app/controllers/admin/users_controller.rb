@@ -44,7 +44,7 @@ class Admin::UsersController < Admin::BaseController
   def destroy
     user = User.find_by(id: params[:id])
     if can? :destroy, user
-      if user.delete
+      if user.destroy
         respond_to do |format|
           format.html do
             flash[:success] = 'User was successfully deleted.'

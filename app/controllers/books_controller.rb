@@ -38,7 +38,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    if Book.find_by(id: params[:id]).delete
+    if Book.find_by(id: params[:id]).destroy
       flash[:success] = 'Deleted successfully.'
     else
       flash[:error]   = 'Delete failed.'
