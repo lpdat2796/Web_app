@@ -16,8 +16,10 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :password, length: { minimum: 6 }, presence: true
 
+  has_many :books_users, dependent: :destroy
+  # dependent: destroy will support delete data in table books_users
+  # when run User.find_by(id: user.id).destroy
   has_many :books, through: :books_users
-
   def is_admin?
     role == 1
   end

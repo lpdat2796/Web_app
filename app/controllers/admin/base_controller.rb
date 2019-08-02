@@ -8,7 +8,7 @@ class Admin::BaseController < ApplicationController
   private
 
   def ensure_user_accessible
-    return if current_user&.is_admin?
+    return if current_user.is_admin?
 
     redirect_to root_path
   end

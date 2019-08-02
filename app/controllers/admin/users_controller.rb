@@ -44,12 +44,20 @@ class Admin::UsersController < Admin::BaseController
   def destroy
     user = User.find_by(id: params[:id])
     if can? :destroy, user
-      User.find_by(user_id: user.id).books.destroy if User.find_by(user_id: user.id).books.present?
       user.destroy
-      respond_to do |format|
-        format.html do
-          flash[:success] = 'User was successfully deleted.'
-          redirect_to admin_root_url
+      if user.delete
+        respond_to do |format|
+          format.html do
+            flash[:success] = 'User was successfully deleted.'
+            redirect_to admin_root_url
+          end
+        end
+      else
+        respond_to do |format|
+          format.html do
+            flash[:error] = 'User was failed to deleted.'
+            redirect_to admin_root_url
+          end
         end
       end
     else

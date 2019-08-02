@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # cancan gem
+  # Authorization with cancan gem
   def current_ability
     controller_name_segments = params[:controller].split('/')
     controller_name_segments.pop
@@ -35,6 +35,6 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_user, controller_namespace)
   end
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
+    redirect_to root_url, :alert => exception.message
   end
 end

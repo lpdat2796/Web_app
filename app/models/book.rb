@@ -6,5 +6,6 @@ class Book < ApplicationRecord
 
   mount_uploader :file, BookUploader
 
+  has_many :books_users, dependent: :destroy
   has_many :users, through: :books_users
 end
