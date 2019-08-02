@@ -19,14 +19,18 @@ class BooksController < ApplicationController
       downloaded_book = Book.find_by(book_id: book[:book_id])
       if downloaded_book.present?
         # Check if user has downloaded this book before
-        if current_user.books.exists?(book_id: downloaded_book.book_id)
+        unless current_user.books.exists?(book_id: downloaded_book.book_id)
           # Save id of user and book in mediate table
           downloaded_book.users << current_user
         end
       else
         # download(book) has id, book_id, title,... in book_new in method download
         downloaded_book = download(book)
-        downloaded_book.users << current_user
+        if downloaded_book == nil
+          flash[:error] = "Download failed"
+        else            
+          downloaded_book.users << current_user
+        end
       end
     end
     flash[:success] = 'Book was successfully downloaded.'
@@ -34,8 +38,7 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    book = Book.find_by(id: params[:id]).destroy
-    if book.delete
+    if Book.find_by(id: params[:id]).delete
       flash[:success] = 'Deleted successfully.'
     else
       flash[:error]   = 'Delete failed.'
@@ -62,7 +65,6 @@ class BooksController < ApplicationController
     if book.save
       return book
     else
-      flash[:error] = "Download failed"
       return nil
     end
   end

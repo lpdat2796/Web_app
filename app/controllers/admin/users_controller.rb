@@ -44,7 +44,6 @@ class Admin::UsersController < Admin::BaseController
   def destroy
     user = User.find_by(id: params[:id])
     if can? :destroy, user
-      user.destroy
       if user.delete
         respond_to do |format|
           format.html do
