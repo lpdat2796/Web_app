@@ -4,9 +4,9 @@ class BooksController < ApplicationController
   # Show book
   def index
     if current_user.is_admin?
-      @book = Book.all
+      @books = Book.all
     else
-      @book = Book.where(user_id: current_user.id)
+      @books = User.find(user_id: current_user.id).books
     end
   end
 
@@ -34,8 +34,12 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    Book.find_by(id: params[:id]).destroy
-    flash[:success] = 'Book was successfully deleted.'
+    book = Book.find_by(id: params[:id]).destroy
+    if current_user.books.delete(book)
+      flash[:success] = 'Deleted successfully.'
+    else
+      flash[:error]   = 'Deleted failed.'
+    end
     redirect_to books_path
   end
 

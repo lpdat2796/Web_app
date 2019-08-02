@@ -1,8 +1,8 @@
 <table class = "table table-striped">
   <thead>
-    <th>Id</th>
+    <th>ID</th>
     <% if current_user.is_admin? %>
-      <th>User Id</th>
+      <th>UID</th>
     <% end %>
     <th>Author</th>
     <th>Title</th>
@@ -16,11 +16,11 @@
     <th>Delete</th>
   </thead>
   <tbody>
-    <% @book.each do |book| %>
+    <% @books.each do |book| %>
       <tr>
         <td><%= book.book_id %></td>
         <% if current_user.is_admin? %>
-          <td><%= book.user_id %></td>
+          <td><%= book.users.map(&:id) %></td>
         <% end %>
         <td><%= book.author %></td>
         <td><%= book.title %></td>
