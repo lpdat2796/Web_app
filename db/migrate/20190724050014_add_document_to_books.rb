@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class AddDocumentToBooks < ActiveRecord::Migration[5.1]
   def up
-    add_column :books, :document, :text 
+    add_column :books, :document, :text
   end
 
   def down

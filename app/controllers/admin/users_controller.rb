@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: %i[edit update]
 
   def index
     @user = User.all
@@ -14,54 +16,62 @@ class Admin::UsersController < Admin::BaseController
 
     respond_to do |format|
       if @user.save
-        format.html { 
-                      flash[:success] = 'User was successfully created.'
-                      redirect_to admin_root_url 
-                    }
+        format.html do
+          flash[:success] = 'User was successfully created.'
+          redirect_to admin_root_url
+        end
       else
         format.html { render :new }
       end
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { 
-                      flash[:success] = 'User was successfully updated.'
-                      redirect_to admin_root_url 
-                    }
+        format.html do
+          flash[:success] = 'User was successfully updated.'
+          redirect_to admin_root_url
+        end
       else
         format.html { render :edit }
       end
     end
   end
 
-  def delete
+  def destroy
     user = User.find_by(id: params[:id])
     if can? :destroy, user
-      BooksUser.find_by(user_id: user.id).destroy if BooksUser.find_by(user_id: user.id).present?
-      user.destroy
-      respond_to do |format|
-        format.html { 
-                      flash[:success] = 'User was successfully destroyed.'
-                      redirect_to admin_root_url 
-                    }
-    end
+      if user.destroy
+        respond_to do |format|
+          format.html do
+            flash[:success] = 'User was successfully deleted.'
+            redirect_to admin_root_url
+          end
+        end
+      else
+        respond_to do |format|
+          format.html do
+            flash[:error] = 'User was failed to deleted.'
+            redirect_to admin_root_url
+          end
+        end
+      end
     else
       flash[:warning] = "You can't delete your own account."
       redirect_to admin_root_path
     end
   end
+
   private
 
   def set_user
     @user = User.find_by(id: params[:id])
   end
+
   def user_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :role)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
   end
 end

@@ -2,5 +2,6 @@
   <div class="row">
     <h1>CREATE USER</h1>
   </div>
+  <%= render "admin/users/error_messages", user: @user %>
   <%= render 'form', user: @user %>
 </div>
