@@ -18,19 +18,16 @@ class SearchController < ApplicationController
 
   # Crawl data
   def crawl_data
-    @arr    = []
-    agent   = Mechanize.new
-    text    = params[:search_form][:search]
-    if params[:page].present?
-      link  = "https://libgen.is/search.php?&req=#{text}&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=#{params[:page]}"
-    else
-      link  = "https://libgen.is/search.php?&req=#{text}&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=1"
-    end
-    page    = agent.get(link)
-    table   = page.search('table')
+    @arr          = []
+    agent         = Mechanize.new
+    crawl_params  = { req: params[:search_form][:search], phrase: "1", view: "simple", column: "def", sort: "def", sortmode: "ASC", page: "1"}
+    crawl_params[:page] = params[:page] if params[:page].present?
+    link          = "https://libgen.is/search.php?#{crawl_params.to_query}"
+    page          = agent.get(link)
+    table         = page.search('table')
     # take first word in string '388 files found'
-    number  = table[1].text.partition(" ").first.to_i
-    data    = table[2].search'tr' 
+    number        = table[1].text.partition(" ").first.to_i
+    data          = table[2].search'tr' 
     data[0..5].each do |dt|
       dt    = dt.search 'td'
       book  = Book.new
