@@ -55,7 +55,7 @@ class SearchController < ApplicationController
       link2             = "http://93.174.95.29#{data2.attribute('href').value}"
       book.link = link2
       @arr << book
-      @paginatable_array = Kaminari.paginate_array(@arr, total_count: number).page(params[:page]).per(25).padding(3)
+      @paginatable_array = Kaminari.paginate_array(@arr, total_count: number).page(params[:page]).per(25)
       # set per = 25 to get params[:page] (number/25)
     end
   end
