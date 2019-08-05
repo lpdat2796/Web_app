@@ -18,8 +18,6 @@ Rails.application.routes.draw do
     get 'password/reset'    =>  'devise/passwords#new'
     get 'password/reset'    =>  'devise/passwords#create'
     get 'password/update'   =>  'devise/passwords#edit'
-    get 'register/confirm'  =>  'devise/confirmations#show'
-    post 'register/confirm' =>  'devise/confirmations#create'
   end
 
   namespace :admin do

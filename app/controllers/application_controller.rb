@@ -9,14 +9,18 @@ class ApplicationController < ActionController::Base
 
   #allow user login to sign in using their email address
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:register, keys: %i[email name password password_confirmation])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[email name password password_confirmation])
   end
 
-  def after_sign_in_path_for(_resource)
+  def after_sign_in_path_for(resource)
     root_path
   end
 
-  def after_sign_out_path_for(_resource)
+  def after_sign_out_path_for(resource)
+    login_path
+  end
+
+  def after_inactive_sign_up_path_for(resource)
     login_path
   end
 
