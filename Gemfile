@@ -22,6 +22,9 @@ gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Ruby 
+ruby '2.6.3'  
+
 # Login/Signup/....
 gem 'devise'
 # Use ActiveModel has_secure_password
