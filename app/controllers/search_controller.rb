@@ -28,7 +28,7 @@ class SearchController < ApplicationController
     # take first word in string '388 files found'
     number        = table[1].text.partition(" ").first.to_i
     data          = table[2].search'tr' 
-    data[0..5].each do |dt|
+    data.each do |dt|
       dt    = dt.search 'td'
       book  = Book.new
       next if dt[0].text == 'ID'
