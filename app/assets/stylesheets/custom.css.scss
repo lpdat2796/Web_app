@@ -62,22 +62,14 @@
 
 body
 {
-  background-image: url(http://www.joburgchiropractor.co.za/images/background.jpg);
+  background-image: url(https://indainam.com/wp-content/uploads/2017/10/mau-background-don-gian-03-1024x819.jpg);
+  text-align: center;
 }
-  
-.container{
-  margin: 30px;
+
+.container-devise{
+  margin-top: 5%;
 }
-#h{
-  margin-top: 50px;
-}
-#login .container #login-row #login-column #login-box {
-  max-width: 600px;
-  height: 100%;
-}
-#login .container #login-row #login-column #login-box #login-form {
-  padding: 20px;
-}
-#login .container #login-row #login-column #login-box #login-form #link {
-  margin-top: -85px;
+.container-fluid
+{
+  padding-left: 0px !important;  
 }

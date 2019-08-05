@@ -1,8 +1,8 @@
-<div class="container">
-  <div class="row">
-    <h2>Forgot your password?</h2>
+<div class="container container-devise">
+  <div class="row justify-content-md-center">
+    <h1>FORGOT YOUR PASSWORD?</h1>
   </div>
-  <div class="row">
+  <div class="row justify-content-md-center">
     <div class="col-lg-offset-3 col-lg-6">
       <%= form_for(resource, as: resource_name, url: password_update_path(resource_name), html: { method: :post }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
