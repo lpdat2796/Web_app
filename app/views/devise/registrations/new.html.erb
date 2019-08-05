@@ -6,7 +6,6 @@
     <div class="col-lg-offset-3 col-lg-6">
       <%= form_for(resource, as: resource_name, url: register_url) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
-
         <div class="form-group">
           <%= f.label :email %><br />
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder:"Please enter your email" %>
