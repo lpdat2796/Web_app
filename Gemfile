@@ -30,11 +30,14 @@ gem 'bcrypt', '~> 3.1.13'
 gem 'byebug'
 
 gem 'mechanize'
+# Gem kaminari use to pagination
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 
-# Rubocop
+# Rubocop use to analyze and format code
 gem 'rubocop', '~> 0.73.0', require: false
 
-# Cancan
+# Cancan use to authorization
 gem 'cancancan', '~> 2.0'
 
 # Boostrap
