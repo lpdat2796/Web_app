@@ -5,4 +5,6 @@
 
 require_relative 'config/application'
 
+# byebug
+
 Rails.application.load_tasks
