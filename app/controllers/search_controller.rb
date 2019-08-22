@@ -50,6 +50,7 @@ class SearchController < ApplicationController
       link2             = "http://93.174.95.29#{data2.attribute('href').value}"
       book.link = link2
       @arr << book
+      byebug
     end
   end
 end
