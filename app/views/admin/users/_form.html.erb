@@ -19,7 +19,7 @@
       </div>
       <div class="form-group">
         <%= f.label :role, "Role", class: "control-label" %>
-        <%= f.select(:role, options_for_select([['User', 0], ['Admin', 1]])) %>
+        <%= f.select(:role, options_for_select([['User', :guest], ['Admin', :admin]])) %>
       </div>
       <div class="text-center">
         <%= f.submit "Submit", class: "btn btn-success col-lg-12" %>

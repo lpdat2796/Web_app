@@ -27,7 +27,7 @@ class BooksController < ApplicationController
         # download(book) has id, book_id, title,... in book_new in method download
         downloaded_book = download(book)
         if downloaded_book == nil
-          flash[:error] = "Download failed"
+          flash[:danger] = "Download failed"
         else            
           downloaded_book.users << current_user
         end
@@ -41,7 +41,7 @@ class BooksController < ApplicationController
     if Book.find_by(id: params[:id]).destroy
       flash[:success] = 'Deleted successfully.'
     else
-      flash[:error]   = 'Delete failed.'
+      flash[:danger]   = 'Delete failed.'
     end
     redirect_to books_path
   end

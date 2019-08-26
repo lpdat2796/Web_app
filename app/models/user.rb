@@ -26,7 +26,7 @@ class User < ApplicationRecord
   # when run User.find_by(id: user.id).destroy
   has_many :books, through: :books_users
   def is_admin?
-    role == 1
+    role == 'admin'
   end
   def change_to_admin
     return false if !user.is_admin?

@@ -2,9 +2,17 @@
     <div class="alert alert-<%= key %>">
       <a href="#" data-dismiss="alert" class="close">×</a>
       <ul>
-        <li>
-          <%= value %>
-        </li>
+        <% if value.class == Array %>
+          <% value.each do |v| %>
+            <li>
+              <%= v %>
+            </li>
+          <% end %>
+        <% else %>
+          <li>
+            <%= value %>
+          </li>
+        <% end %>
       </ul>
     </div>
   <% end %>

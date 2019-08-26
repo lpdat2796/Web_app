@@ -24,9 +24,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'users#index'
-    resources :users, only: %i[index update create destroy]
+    resources :users, only: %i[update create destroy]
     get 'new'               =>  'users#new'
     get 'edit'              =>  'users#edit'
+    get 'users/:id'         =>  'users#edit'
   end
 
   # define route edit user trong cái scope :user nest trong namspace admin

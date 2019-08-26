@@ -26,7 +26,8 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def update
     respond_to do |format|
@@ -36,6 +37,7 @@ class Admin::UsersController < Admin::BaseController
           redirect_to admin_root_url
         end
       else
+        flash[:danger] = @user.errors.full_messages
         format.html { render :edit }
       end
     end
@@ -54,7 +56,7 @@ class Admin::UsersController < Admin::BaseController
       else
         respond_to do |format|
           format.html do
-            flash[:error] = 'User was failed to deleted.'
+            flash[:danger] = 'User was failed to deleted.'
             redirect_to admin_root_url
           end
         end
@@ -68,7 +70,9 @@ class Admin::UsersController < Admin::BaseController
   private
 
   def set_user
-    @user = User.find_by(id: params[:id])
+    @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    flash[:danger] = ["ID #{params[:id]} not exist"]
   end
 
   def user_params
