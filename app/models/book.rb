@@ -8,4 +8,5 @@ class Book < ApplicationRecord
 
   has_many :books_users, dependent: :destroy
   has_many :users, through: :books_users
+  # ddd
 end
