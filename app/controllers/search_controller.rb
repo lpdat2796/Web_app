@@ -18,18 +18,20 @@ class SearchController < ApplicationController
 
   # Crawl data
   def crawl_data
-    @arr  = []
-    agent = Mechanize.new
-    text  = params[:search_form][:search]
-    link  = "https://libgen.is/search.php?req=#{text}&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def"
-    page  = agent.get(link)
-    data  = page.search 'table.c'
-    data  = data.search 'tr'
-    data[0..4].each do |dt|
-      dt   = dt.search 'td'
-      book = Book.new
+    @arr          = []
+    agent         = Mechanize.new
+    crawl_params  = { req: params[:search_form][:search], phrase: "1", view: "simple", column: "def", sort: "def", sortmode: "ASC", page: "1"}
+    crawl_params[:page] = params[:page] if params[:page].present?
+    link          = "https://libgen.is/search.php?#{crawl_params.to_query}"
+    page          = agent.get(link)
+    table         = page.search('table')
+    # take first word in string '388 files found'
+    number        = table[1].text.partition(" ").first.to_i
+    data          = table[2].search'tr' 
+    data[0..5].each do |dt|
+      dt    = dt.search 'td'
+      book  = Book.new
       next if dt[0].text == 'ID'
-
       book.book_id      = dt[0].text
       book.author       = dt[1].text
       book.title        = dt[2].text
@@ -50,7 +52,8 @@ class SearchController < ApplicationController
       link2             = "http://93.174.95.29#{data2.attribute('href').value}"
       book.link = link2
       @arr << book
-      byebug
+      @paginatable_array = Kaminari.paginate_array(@arr, total_count: number).page(params[:page]).per(25)
+      # set per = 25 to get params[:page] (number/25)
     end
   end
 end
